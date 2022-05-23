@@ -2,6 +2,8 @@ package com.blurdel.msscbrewery.web.controller;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import com.blurdel.msscbrewery.services.BeerService;
 import com.blurdel.msscbrewery.web.model.BeerDto;
 
 
+@Deprecated
 @RequestMapping("/api/v1/beer")
 @RestController
 public class BeerController {
@@ -36,7 +39,7 @@ public class BeerController {
     }
 
     @PostMapping
-    public ResponseEntity handlePost(@RequestBody BeerDto beerDto) {
+    public ResponseEntity handlePost(@Valid @RequestBody BeerDto beerDto) {
     	BeerDto savedDto = beerService.save(beerDto);
     	
     	HttpHeaders headers = new HttpHeaders();
@@ -46,7 +49,7 @@ public class BeerController {
     }
     
     @PutMapping("/{beerId}")
-    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beerDto) {
+    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerDto beerDto) {
     	beerService.update(beerId, beerDto);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Can do this here
     }
